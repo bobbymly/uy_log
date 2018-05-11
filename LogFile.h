@@ -1,0 +1,49 @@
+//#include "noncopyable.h"
+#include "MutexLock.h"
+#include "FileUtil.h"
+#include <iostream>
+#include <memory>
+#include <string>
+
+
+using std::string;
+
+class LogFile:noncopyable
+{
+public:
+    LogFile(const string& filename,const int FlushEveryN = 1024):
+        file_(new AppendFile(filename)),
+        mutex_(new MutexLock),
+        count_(0),
+        FlushEveryN_(FlushEveryN)
+    {   }
+    ~LogFile()
+    {    }
+
+    void flush()
+    {
+        MutexLockGuard(*mutex_);
+        file_->flush();
+    }
+
+    void append(const char* log,size_t len)
+    {
+        MutexLockGuard(*mutex_);
+        file_->append(log,len);
+        ++count_;
+        if(count_ >= FlushEveryN_)
+        {
+            file_->flush();
+        }
+    }
+
+private:
+    const string filename_;
+    const int FlushEveryN_;
+    std::unique_ptr<AppendFile> file_;
+    std::unique_ptr<MutexLock> mutex_;
+    int count_;
+
+
+
+};
