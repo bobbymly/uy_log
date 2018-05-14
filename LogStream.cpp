@@ -1,3 +1,4 @@
+#pragma once
 #include "LogStream.h"
 #include <cstring>
 #include <algorithm>

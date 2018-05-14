@@ -1,9 +1,12 @@
-//#include "noncopyable.h"
+#pragma once
+#include "noncopyable.h"
+
 #include "MutexLock.h"
 #include "FileUtil.h"
 #include <iostream>
 #include <memory>
 #include <string>
+#include "FixedBuffer.h"
 
 
 using std::string;

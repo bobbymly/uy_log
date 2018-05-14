@@ -1,3 +1,4 @@
+#pragma once
 #include <pthread.h>
 #include "MutexLock.h"
 #include <time.h>

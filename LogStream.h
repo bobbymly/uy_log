@@ -1,42 +1,11 @@
+#pragma once
 #include "LogFile.h"
-//#include "noncopyable.h"
+#include "noncopyable.h"
 #include <memory>
 #include <cstring>
-template <int SIZE>
-class FixedBuffer: noncopyable
-{
-public:
-    FixedBuffer():cur_(buf_){   }
-    ~FixedBuffer() = default;
-    char* current(){  return cur_;}
-    void add(int n){    cur_ += n;}
-    char* begin(){  return buf_;}
-    void reset(){   cur_ = buf_;}
-    int avail(){   return static_cast<int>(end() - cur_);}
-    int lenth(){   return static_cast<int>(cur_ - buf_);}
-    void append(const char* target_buf,int len)
-    {
-        if(avail() >= len)
-        {
-            memcpy(buf_,target_buf,len);
-            cur_ += len;
-        }
-    }
-    
-
-
-
-
-
-
-private:
-    char buf_[SIZE];
-    char* cur_;
-    const char* end(){  return buf_ + sizeof buf_;}
-
-
-};
-
+#include "FixedBuffer.h"
+const int kLargeBuffer = 4000*1000;
+const int kSmallBuffer = 4000;
 
 
 class LogStream: noncopyable
@@ -44,10 +13,11 @@ class LogStream: noncopyable
 public:
     LogStream();
     ~LogStream();
+    FixedBuffer<kSmallBuffer>& buffer(){  return buf_;}
     void apppend(const char* target_buf,int len){   buf_.append(target_buf,len);}
 
 private:
-    FixedBuffer<4000> buf_;
+    FixedBuffer<kSmallBuffer> buf_;
 
     template<class T>
     void transform(T);
@@ -74,7 +44,7 @@ public:
         buf_.add(len);
         return *this;
     }
-    LogStream& operator<<(char* target_buf)
+    LogStream& operator<<(const char* target_buf)
     {    
         if(target_buf)
         {
