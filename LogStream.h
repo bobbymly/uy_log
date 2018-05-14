@@ -85,7 +85,9 @@ public:
         return *this;
     }
     LogStream& operator<<(string& target_buf)
-    {    buf_.append(target_buf.c_str(),target_buf.size());
+    {    
+        buf_.append(target_buf.c_str(),target_buf.size());
         return *this;
     }
+
 };
