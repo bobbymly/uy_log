@@ -2,7 +2,8 @@
 #include "noncopyable.h"
 #include <iostream>
 #include <string>
-
+#include <unistd.h>
+#include <cstdio>
 
 class AppendFile:noncopyable
 {

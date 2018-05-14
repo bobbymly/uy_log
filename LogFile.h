@@ -14,7 +14,7 @@ using std::string;
 class LogFile:noncopyable
 {
 public:
-    LogFile(const string& filename,const int FlushEveryN = 1024):
+    LogFile(string& filename,const int FlushEveryN = 1024):
         file_(new AppendFile(filename)),
         mutex_(new MutexLock),
         count_(0),

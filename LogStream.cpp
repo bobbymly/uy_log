@@ -10,7 +10,7 @@ char intToChar[]="9876543210123456789";
 template <class T>
 void LogStream::transform(T value)
 {
-    if(buf_.avali()<32)return;
+    if(buf_.avail()<32)return;
     T temp = value;
     char *cur = buf_.current();
     while(temp)

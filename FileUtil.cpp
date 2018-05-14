@@ -1,4 +1,4 @@
-#pragma once
+//#pragma once
 #include "FileUtil.h"
 
 
@@ -10,16 +10,16 @@ AppendFile::AppendFile(std::string filename):fp_(fopen(filename.c_str(),"ae"))
 
 AppendFile::~AppendFile()
 {
-    close(fp_);
+    fclose(fp_);
 }
 
-AppendFile::append(const char* log,size_t len)
+void AppendFile::append(const char* log,size_t len)
 {
-    size_t n=this->write(logline,len);
+    size_t n=this->write(log,len);
 	size_t remain=len-n;
 	while(remain>0)
 	{
-		size_t res=this->write(logline+n,remain);
+		size_t res=this->write(log+n,remain);
 		if(res==0)
 		{
 			int err=ferror(fp_);
@@ -33,7 +33,7 @@ AppendFile::append(const char* log,size_t len)
 
 size_t AppendFile::write(const char* log,size_t len)
 {
-    unlocked_write(log,1,len,fp_);
+    return fwrite_unlocked(log,1,len,fp_);
 }
 
 

@@ -3,6 +3,7 @@
 #include <pthread.h>
 #include <string>
 #include <sys/time.h>
+#include "LogStream.h"
 using std::string;
 //class Logger;
 
