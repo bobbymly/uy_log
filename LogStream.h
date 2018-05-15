@@ -3,16 +3,22 @@
 #include "noncopyable.h"
 #include <memory>
 #include <cstring>
+#include <algorithm>
+#include <iostream>
 #include "FixedBuffer.h"
 const int kLargeBuffer = 4000*1000;
 const int kSmallBuffer = 4000;
 
 
+
+
+
+
+
 class LogStream: noncopyable
 {
 public:
-    LogStream();
-    ~LogStream();
+
     FixedBuffer<kSmallBuffer>& buffer(){  return buf_;}
     void apppend(const char* target_buf,int len){   buf_.append(target_buf,len);}
 
@@ -61,3 +67,31 @@ public:
     }
 
 };
+
+
+
+using namespace std;
+char intToChar[]="9876543210123456789";
+
+template <class T>
+void LogStream::transform(T value)
+{
+    if(buf_.avail()<32)return;
+    T temp = value;
+    char *cur = buf_.current();
+    while(temp)
+    {
+        int key = temp % 10;
+        *cur = intToChar[9 + key];
+        ++cur;
+        temp /= 10;
+    }
+    if(value < 0)
+    {
+        *cur='-';
+        ++cur;
+    }
+    *cur = 0;
+    std::reverse(buf_.begin(),cur);
+    buf_.add(static_cast<int>(cur - buf_.begin()));
+}

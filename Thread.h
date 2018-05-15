@@ -47,7 +47,7 @@ namespace CurrentThread
 class Thread
 {
 public:
-	    Thread(std::function<void()>func,std::string name = std::string()):
+	Thread(std::function<void()>func,std::string name = std::string()):
         name_(name),
         started_(false),
         joined_(false),

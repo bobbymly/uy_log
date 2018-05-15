@@ -3,6 +3,7 @@
 #include "MutexLock.h"
 #include <time.h>
 #include <errno.h>
+#include <cstdint>
 class Condition
 {
 public:

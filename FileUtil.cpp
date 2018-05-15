@@ -4,6 +4,7 @@
 
 AppendFile::AppendFile(std::string filename):fp_(fopen(filename.c_str(),"ae"))
 {
+	std::cout<<filename;
     setbuffer(fp_,buf,sizeof(buf));
 }
 
@@ -33,6 +34,7 @@ void AppendFile::append(const char* log,size_t len)
 
 size_t AppendFile::write(const char* log,size_t len)
 {
+	//std::cout<<log;
     return fwrite_unlocked(log,1,len,fp_);
 }
 

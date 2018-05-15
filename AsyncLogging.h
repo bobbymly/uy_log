@@ -10,6 +10,7 @@
 #include "FixedBuffer.h"
 #include "LogFile.h"
 #include "LogStream.h"
+#include <iostream>
 using std::string;
 using std::vector;
 using std::shared_ptr;
@@ -60,6 +61,7 @@ public:
         if(currentBuffer_->avail() > len)
         {
             currentBuffer_->append(logline,len);
+            std::cout<<"avail "<<logline;
         }else{
             buffers_.push_back(currentBuffer_);
 	    	currentBuffer_.reset();
@@ -69,7 +71,7 @@ public:
                 currentBuffer_.reset(new Buffer);
             currentBuffer_->append(logline,len);
             cond_.notify();
-        
+            std::cout<<"not avail "<<logline;
         }
     }
 

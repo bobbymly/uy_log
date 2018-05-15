@@ -16,22 +16,22 @@ class LogFile:noncopyable
 public:
     LogFile(string& filename,const int FlushEveryN = 1024):
         file_(new AppendFile(filename)),
+        FlushEveryN_(FlushEveryN),
         mutex_(new MutexLock),
-        count_(0),
-        FlushEveryN_(FlushEveryN)
+        count_(0)
     {   }
     ~LogFile()
     {    }
 
     void flush()
     {
-        MutexLockGuard(*mutex_);
+        MutexLockGuard lock(*mutex_);
         file_->flush();
     }
 
     void append(const char* log,size_t len)
     {
-        MutexLockGuard(*mutex_);
+        MutexLockGuard lock(*mutex_);
         file_->append(log,len);
         ++count_;
         if(count_ >= FlushEveryN_)

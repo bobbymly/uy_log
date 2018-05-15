@@ -4,6 +4,8 @@
 #include <string>
 #include <sys/time.h>
 #include "LogStream.h"
+#include <stdio.h>
+#include <string.h>
 using std::string;
 //class Logger;
 
@@ -14,7 +16,7 @@ class Logger:noncopyable
 {
 public:
 
-    Logger(char basename[],int line):basename_(basename),line_(line)
+    Logger(const char* basename,int line):basename_(basename),line_(line)
     {   addTimeInfo();}
     ~Logger()
     {    
@@ -81,6 +83,7 @@ static void output(const char* buf,int len)
 {
     pthread_once(&once_control_,once_init);
     AsyncLogger_->append(buf,len);
+    std::cout<<"test msg"<<buf;
 }
 
 
