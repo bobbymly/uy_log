@@ -1,3 +1,7 @@
+# 使用说明
+
+> Logging.h 为入口文件，包含此文件即可用  LOG << "msg"; 的方式输出日志
+
 # uy_log
 
 由于在多线程环境下频繁的文件读写会造成很大的性能损失，故采用双缓冲区设计。
@@ -6,11 +10,14 @@
 
 Log 的实现包括许多文件层层递进
 
-FileUtil 包含了Log文件的 打开、关闭、写入，使用自定义缓冲区和无锁 fwrite_unlocked()。
-LogFile 封装了FileUtil并设置了一个循环次数，每添加这么多次 Log 信息就向文件中写一次。
-LogStream 重载各种<<运算符。
-AsyncLogging 负责启动一个LOG线程，应用双缓冲区技术。
-Logging 对外的接口，内含一个LogStream对象，在每次打Log时为其添加 文件名 和 行数 等格式化信息。
+* FileUtil 包含了Log文件的 打开、关闭、写入，使用自定义缓冲区和无锁 fwrite_unlocked()。
+* LogFile 封装了FileUtil并设置了一个循环次数，每添加这么多次 Log 信息就向文件中写一次。
+* LogStream 重载各种<<运算符。
+* AsyncLogging 负责启动一个LOG线程，应用双缓冲区技术。
+* Logging 对外的接口，内含一个LogStream对象，在每次打Log时为其添加 文件名 和 行数 等格式化信息。
+
+
+![](https://raw.githubusercontent.com/bobbymly/uy_log/master/pic.png )
 
 ## 缓冲区组件 FixedBuffer
 
