@@ -84,4 +84,6 @@ static void output(const char* buf,int len)
 }
 
 
-#define LOG Logger(__FILE__, __LINE__).stream() //宏命令替换，方便写代码时直接以 LOG<< 的形式
+#define LOG Logger(__FILE__, __LINE__).stream() 
+//宏命令替换，方便写代码时直接以 LOG<< 的形式
+//由于时匿名对象，利用其生命期的特点使用构造和析构过程来完成写入日志操作
