@@ -31,11 +31,14 @@ public:
 
     void append(const char* log,size_t len)
     {
-        MutexLockGuard lock(*mutex_);
-        file_->append(log,len);
-        ++count_;
+        {
+            MutexLockGuard lock(*mutex_);
+            file_->append(log,len);
+            ++count_;
+        }
         if(count_ >= FlushEveryN_)
         {
+            count_ = 0;
             file_->flush();
         }
     }

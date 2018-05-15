@@ -46,5 +46,5 @@ public:
 
 
 private:    
-    MutexLock mutex_;
+    MutexLock& mutex_;
 };

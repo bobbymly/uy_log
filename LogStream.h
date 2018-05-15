@@ -6,6 +6,8 @@
 #include <algorithm>
 #include <iostream>
 #include "FixedBuffer.h"
+#include <string>
+using std::string;
 const int kLargeBuffer = 4000*1000;
 const int kSmallBuffer = 4000;
 
@@ -33,9 +35,13 @@ public:
     
     LogStream& operator<<(bool value){ buf_.append(value == 1 ? "1" : "0",1);return *this;}
     LogStream& operator<<(short value){ transform(value);return *this;}
+    LogStream& operator<<(unsigned short value){ transform(value);return *this;}
     LogStream& operator<<(int value){ transform(value);return *this;}
+    LogStream& operator<<(unsigned int value){ transform(value);return *this;}
     LogStream& operator<<(long value){ transform(value);return *this;}
+    LogStream& operator<<(unsigned long value){ transform(value);return *this;}
     LogStream& operator<<(long long value){ transform(value);return *this;}
+    LogStream& operator<<(unsigned long long value){ transform(value);return *this;}
     LogStream& operator<<(float value)
     { 
         if(buf_.avail() < 32)return *this;
@@ -60,11 +66,22 @@ public:
         }
         return *this;
     }
-    LogStream& operator<<(string& target_buf)
+    LogStream& operator<<(char target_buf)
+    {
+        if(&target_buf)
+        {
+            buf_.append(&target_buf,1);
+        }else{
+            buf_.append("(NULL)",6);
+        }
+        return *this;
+    }
+    LogStream& operator<<(const string& target_buf)
     {    
         buf_.append(target_buf.c_str(),target_buf.size());
         return *this;
     }
+
 
 };
 
@@ -91,7 +108,7 @@ void LogStream::transform(T value)
         *cur='-';
         ++cur;
     }
-    *cur = 0;
-    std::reverse(buf_.begin(),cur);
-    buf_.add(static_cast<int>(cur - buf_.begin()));
+    *cur = '\0';
+    std::reverse(buf_.current(),cur);
+    buf_.add(cur - buf_.current());
 }

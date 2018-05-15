@@ -13,6 +13,7 @@
 using std::cout;
 using std::endl;
 using std::string;
+
 namespace CurrentThread
 {
     //使用__thread 关键字用以记录线程信息
@@ -96,6 +97,7 @@ private:
 pid_t gettid()
 {
 	return static_cast<pid_t>(::syscall(SYS_gettid));
+	//获取线程真实PID（可做唯一标识），而非进程PID或进程内独立ID
 }
 
 void CurrentThread::cacheTid()
@@ -107,6 +109,8 @@ void CurrentThread::cacheTid()
 	}
 }
 
+
+//用来传递信息的结构体
 struct ThreadData
 {
 	typedef std::function<void()> ThreadFunc;

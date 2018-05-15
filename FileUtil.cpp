@@ -4,7 +4,7 @@
 
 AppendFile::AppendFile(std::string filename):fp_(fopen(filename.c_str(),"ae"))
 {
-	std::cout<<filename;
+	//std::cout<<filename;
     setbuffer(fp_,buf,sizeof(buf));
 }
 

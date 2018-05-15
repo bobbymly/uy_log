@@ -21,6 +21,7 @@ public:
     ~Logger()
     {    
         stream_<< " -- " << basename_ << ':' << line_ << '\n';
+        //std::cout<<stream_.buffer().begin();
         output(stream_.buffer().begin(),stream_.buffer().lenth());
     }
 
@@ -41,11 +42,6 @@ public:
     {
         return Logger::logFileName_;
     }
-
-
-
-
-
 
 
 private:
@@ -81,9 +77,10 @@ static void once_init()
 }
 static void output(const char* buf,int len)
 {
+    //pthread_once 实现单例线程
     pthread_once(&once_control_,once_init);
     AsyncLogger_->append(buf,len);
-    std::cout<<"test msg"<<buf;
+    //std::cout<<"test msg"<<buf;
 }
 
 

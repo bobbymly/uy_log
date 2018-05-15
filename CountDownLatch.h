@@ -35,7 +35,7 @@ public:
 
 
 private:
-    MutexLock mutex_;
+    mutable MutexLock mutex_;
     Condition cond_;
     int count_;
 

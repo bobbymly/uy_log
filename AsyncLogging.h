@@ -28,7 +28,7 @@ public:
         flushInterval_(flushInterval),
         mutex_(),
         cond_(mutex_),
-        running_(),
+        running_(false),
         count_(1),
         currentBuffer_(new Buffer),
         nextBuffer_(new Buffer),
@@ -61,7 +61,7 @@ public:
         if(currentBuffer_->avail() > len)
         {
             currentBuffer_->append(logline,len);
-            std::cout<<"avail "<<logline;
+            //std::cout<<"avail "<<logline;
         }else{
             buffers_.push_back(currentBuffer_);
 	    	currentBuffer_.reset();
@@ -71,7 +71,7 @@ public:
                 currentBuffer_.reset(new Buffer);
             currentBuffer_->append(logline,len);
             cond_.notify();
-            std::cout<<"not avail "<<logline;
+            //std::cout<<"not avail "<<logline;
         }
     }
 

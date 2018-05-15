@@ -21,7 +21,7 @@ public:
     {
         if(avail() >= len)
         {
-            memcpy(buf_,target_buf,len);
+            memcpy(cur_,target_buf,len);
             cur_ += len;
         }
     }
