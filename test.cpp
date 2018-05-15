@@ -1,9 +1,9 @@
 #include <iostream>
 #include <string>
-#include "log/Logging.h"
+#include "Logging.h"
 #include <unistd.h>
 #include <vector>
-#include "log/Thread.h"
+#include "Thread.h"
 using namespace std;
 void type_test();
 void threadFunc();
